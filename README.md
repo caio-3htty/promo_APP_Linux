@@ -11,6 +11,10 @@ Shell Electron dedicado ao Linux que carrega o `promo_APP_Web`.
 - npm 10+
 - Ambiente Linux para empacotamento local (`AppImage` e `deb`)
 
+Observacao de portabilidade:
+- Em Windows, `electron-builder --linux` pode falhar por privilegio de symlink.
+- O empacotamento oficial Linux deste app e feito no CI Ubuntu.
+
 ## Rodar local (desktop)
 ```bash
 npm install
@@ -23,6 +27,11 @@ Se estiver em outro caminho, defina `PROMO_APP_WEB_DIR`.
 ## Gerar pacotes Linux
 ```bash
 npm run desktop:build:linux
+```
+
+Se estiver em Windows e quiser apenas validar paridade web embutida:
+```bash
+npm run desktop:prepare:web
 ```
 
 Artefatos em `release/`:
