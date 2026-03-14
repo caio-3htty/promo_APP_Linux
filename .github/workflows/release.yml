@@ -1,0 +1,51 @@
+name: linux-release
+
+on:
+  workflow_dispatch:
+
+jobs:
+  package-linux:
+    runs-on: ubuntu-latest
+    env:
+      PROMO_APP_WEB_DIR: ./promo_APP_Web
+      VITE_SUPABASE_URL: ${{ vars.SUPABASE_URL }}
+      VITE_SUPABASE_PUBLISHABLE_KEY: ${{ vars.SUPABASE_PUBLISHABLE_KEY }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Checkout web client
+        uses: actions/checkout@v4
+        with:
+          repository: caio-3htty/promo_APP_Web
+          path: promo_APP_Web
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install Linux packaging dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y ruby ruby-dev build-essential rpm
+          sudo gem install --no-document fpm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install web dependencies
+        run: npm --prefix ./promo_APP_Web ci
+
+      - name: Build linux packages
+        run: npm run desktop:build:linux
+
+      - name: Upload Linux artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: promo_APP_Linux-packages
+          path: |
+            release/*.AppImage
+            release/*.deb
+          if-no-files-found: error
