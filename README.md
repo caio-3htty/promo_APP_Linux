@@ -47,4 +47,12 @@ Build embutido do web usa as variaveis do `promo_APP_Web`:
 - `linux-ci`: valida preparacao do bundle web embutido em Ubuntu.
 - `linux-release`: gera `.AppImage` e `.deb` e publica artefatos.
 
+## Code Hygiene
+```bash
+npm run cleanup:analyze
+npm run cleanup:verify
+```
+
+Para validar empacotamento Linux final, execute `npm run desktop:build:linux` em runner Ubuntu.
+
 # Promo_APP_Linux
