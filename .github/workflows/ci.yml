@@ -21,6 +21,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           repository: caio-3htty/promo_APP_Web
+          ref: ${{ github.head_ref || github.ref_name }}
           path: promo_APP_Web
 
       - name: Setup Node
